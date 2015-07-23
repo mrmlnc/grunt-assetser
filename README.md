@@ -1,6 +1,6 @@
 # grunt-assetser
 
-> Insert specific .js .css files in HTML files.
+> Inject assets files (js, css) into HTML files.
 
 ## Getting Started
 This plugin requires Grunt `~0.4.5`

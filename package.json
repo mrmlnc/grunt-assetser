@@ -1,6 +1,6 @@
 {
   "name": "grunt-assetser",
-  "description": "Insert specific .js .css files in HTML files.",
+  "description": "Inject assets files (js, css) into HTML files.",
   "version": "0.1.0",
   "author": {
     "name": "Denis Malinochkin",
