@@ -93,7 +93,6 @@ module.exports = {
 
     if (typeof filepaths === 'object') {
       filepaths.forEach(function(filepath) {
-        console.log(filepath);
         var files = _self.getDirectoryFiles(filepath, marker, type);
         paths.push.apply(paths, files);
       });
