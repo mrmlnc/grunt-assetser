@@ -89,5 +89,14 @@ exports.assetser = {
     test.equal(actual, expected, 'A task with processing only .css files and files with `mark` in name.');
 
     test.done();
+  },
+  multiple_assets: function(test) {
+    test.expect(1);
+
+    var actual = grunt.file.read('tmp/multiple_assets.html');
+    var expected = grunt.file.read('test/expected/multiple_assets.html');
+    test.equal(actual, expected, 'A task with multiple assets directories.');
+
+    test.done();
   }
 };

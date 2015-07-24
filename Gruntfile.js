@@ -84,6 +84,14 @@ module.exports = function(grunt) {
         files: {
           'tmp/type_css_and_marked_mark.html': 'test/fixtures/blank_space.html'
         }
+      },
+      multiple_assets: {
+        options: {
+          assetsDir: ['test/fixtures/assets', 'test/fixtures/more-assets']
+        },
+        files: {
+          'tmp/multiple_assets.html': 'test/fixtures/blank_space.html'
+        }
       }
     },
 

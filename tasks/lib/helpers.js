@@ -61,28 +61,45 @@ module.exports = {
 
   /**
    * Get a filtered list of asset resources from the directory
-   * @param {String} filepath
-   * @param {Boolean} marker
+   * @param {String} dirpath
+   * @param {Boolean|String} marker
+   * @param {Boolean} type
+   * @returns {Array}
+   */
+  getDirectoryFiles: function(dirpath, marker, type) {
+    var pattern = '*' + ((marker) ? marker : '') + '.';
+    pattern += (type) ? type : '+(js|css)';
+
+    return grunt.file.expand({
+      filter: 'isFile',
+      matchBase: true,
+      nonull: true,
+      cwd: dirpath
+    }, pattern).map(function (file) {
+      return path.join(dirpath, file);
+    });
+  },
+
+  /**
+   * Get a one filtered list of resources from the directories
+   * @param {String|Array} filepaths
+   * @param {Boolean|String} marker
    * @param {Boolean} type
    * @returns {Array}
    */
   getAssetFiles: function(filepaths, marker, type) {
-    var pattern = '*' + ((marker) ? marker : '') + '.';
-    pattern += (type) ? type : '+(js|css)';
-
+    var _self = this;
     var paths = [];
-    filepaths.forEach(function(filepath) {
-      var files = grunt.file.expand({
-        filter: 'isFile',
-        matchBase: true,
-        nonull: true,
-        cwd: filepath
-      }, pattern).map(function (file) {
-        return path.join(filepath, file);
-      });
 
-      paths.push.apply(paths, files);
-    });
+    if (typeof filepaths === 'object') {
+      filepaths.forEach(function(filepath) {
+        console.log(filepath);
+        var files = _self.getDirectoryFiles(filepath, marker, type);
+        paths.push.apply(paths, files);
+      });
+    } else {
+      return this.getDirectoryFiles(filepaths, marker, type);
+    }
 
     return paths;
   },

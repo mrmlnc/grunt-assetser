@@ -83,7 +83,7 @@ grunt.initConfig({
 });
 ```
 
-#### Working with multiple assets directory
+#### Working with multiple assets directories
 ```js
 grunt.initConfig({
   assetser: {
@@ -106,4 +106,5 @@ grunt.initConfig({
 
 ## Release History
 
+ * 2015-07-24   v0.1.1   Fix errors when working with multiple assets directories
  * 2015-07-24   v0.1.0   Initialization
