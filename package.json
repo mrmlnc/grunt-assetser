@@ -1,7 +1,7 @@
 {
   "name": "grunt-assetser",
   "description": "Inject assets files (js, css) into HTML files.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": {
     "name": "Denis Malinochkin",
     "url": "http://canonium.com"

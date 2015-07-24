@@ -47,17 +47,19 @@ Add only files the type specified by in this parameter. Supported: `js`, `css`.
 ```js
 grunt.initConfig({
   assetser: {
-    options: {
-      assetsDir: 'test/fixtures/assets'
-    },
-    // like this
-    files: {
-      'tmp/default.html': 'test/fixtures/blank.html'
-      'tmp/default_tab.html': 'test/fixtures/blank_tab.html'
+    main: {
+      options: {
+        assetsDir: 'app/assets'
+      },
+      // like this
+      files: {
+        'build/index.html': 'app/index.html',
+        'tmp/test.html': 'app/index.html'
+      }
+      // or
+      src: 'app/index.html',
+      dest: 'build/index.html'
     }
-    // or
-    src: 'test/fixtures/blank.html',
-    dest: 'tmp/default.html'
   }
 });
 ```
@@ -66,18 +68,41 @@ grunt.initConfig({
 ```js
 grunt.initConfig({
   assetser: {
-    options: {
-      assetsDir: 'test/fixtures/assets'
-    },
-    files: [{
-      expand: true,
-      cwd: 'test/fixtures',
-      src: '*.html',
-      dest: 'tmp'
-    }]
+    main: {
+      options: {
+        assetsDir: 'app/assets'
+      },
+      files: [{
+        expand: true,
+        cwd: 'app',
+        src: '*.html',
+        dest: 'build'
+      }]
+    }
   }
 });
 ```
+
+#### Working with multiple assets directory
+```js
+grunt.initConfig({
+  assetser: {
+    main: {
+      options: {
+        assetsDir: ['app/assets/styles', 'app/assets/scripts']
+      },
+      files: [{
+        expand: true,
+        cwd: 'app',
+        src: '*.html',
+        dest: 'tmp'
+      }]
+    }
+  }
+});
+```
+
+
 
 ## Release History
 

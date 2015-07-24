@@ -33,7 +33,7 @@ module.exports = {
   },
 
   /**
-   *
+   * Replace special symbols on indent symbols from HTML file
    * @param {String} str
    * @param {String} indent
    * @returns {string}
@@ -66,17 +66,25 @@ module.exports = {
    * @param {Boolean} type
    * @returns {Array}
    */
-  getAssetFiles: function(filepath, marker, type) {
+  getAssetFiles: function(filepaths, marker, type) {
     var pattern = '*' + ((marker) ? marker : '') + '.';
     pattern += (type) ? type : '+(js|css)';
-    return grunt.file.expand({
-      filter: 'isFile',
-      matchBase: true,
-      nonull: true,
-      cwd: filepath
-    }, pattern).map(function (file) {
-      return path.join(filepath, file);
+
+    var paths = [];
+    filepaths.forEach(function(filepath) {
+      var files = grunt.file.expand({
+        filter: 'isFile',
+        matchBase: true,
+        nonull: true,
+        cwd: filepath
+      }, pattern).map(function (file) {
+        return path.join(filepath, file);
+      });
+
+      paths.push.apply(paths, files);
     });
+
+    return paths;
   },
 
   /**
