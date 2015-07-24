@@ -17,7 +17,7 @@ Once the plugin has been installed, it may be enabled inside your Gruntfile with
 grunt.loadNpmTasks('grunt-assetser');
 ```
 
-## The "injection_assets" task
+## The assetser task
 _Run this task with the `grunt assetser` command._
 
 Task targets, files and options may be specified according to the Grunt [Configuring tasks](http://gruntjs.com/configuring-tasks) guide.
