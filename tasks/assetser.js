@@ -25,7 +25,7 @@ module.exports = function(grunt) {
 
     // Get list of files from assets directory
     var assets = helpers.getAssetFiles(o.assetsDir, o.onlyMarked, o.onlyType);
-    assets = helpers.compileAssets(assets);
+    assets = helpers.combineAssets(assets);
 
     this.files.forEach(function(f) {
       var src = f.src.filter(function(filepath) {
@@ -39,8 +39,8 @@ module.exports = function(grunt) {
       }).map(function(filepath) {
         var htmlRaw = grunt.file.read(filepath);
         var html = helpers.preparationHtml(htmlRaw);
-        var styles = helpers.changeIndent(assets.styles, html.indent);
-        var scripts = helpers.changeIndent(assets.scripts, html.indent);
+        var styles = helpers.changeIndent(assets.styles, html.indent, html.nesting);
+        var scripts = helpers.changeIndent(assets.scripts, html.indent, html.nesting);
 
         return html.head + styles + html.main + scripts + html.footer;
       });

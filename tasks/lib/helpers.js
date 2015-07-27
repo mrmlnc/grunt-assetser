@@ -38,8 +38,15 @@ module.exports = {
    * @param {String} indent
    * @returns {string}
    */
-  changeIndent: function(str, indent) {
-    return str.replace(/\{_\}/g, indent);
+  changeIndent: function(str, indent, nesting) {
+    if (nesting) {
+      str = str.replace(/\{_\}\{_\}/g, indent);
+      str = str.replace(/\{_\}/g, indent);
+    } else {
+      str = str.replace(/\{_\}/g, indent);
+    }
+
+    return str;
   },
 
   /**
@@ -108,7 +115,7 @@ module.exports = {
    * @param {Array} assets An array of asset resources
    * @returns {{scripts: string, styles: string}}
    */
-  compileAssets: function(assets) {
+  combineAssets: function(assets) {
     var _self = this;
     var js = '';
     var css = '';
@@ -138,18 +145,28 @@ module.exports = {
    */
   preparationHtml: function(html) {
     var indent = this.getIndent(html);
-    var headIndex = html.indexOf('</head>');
-    var bodyIndex = html.indexOf('</body>');
 
-    var beforeHead = html.substring(0, headIndex);
-    var headBody = html.substring(headIndex - indent.amount, bodyIndex);
-    var afterBody = html.substring(bodyIndex - indent.amount);
+    // Definition indentation in file
+    var headStartIndex = html.indexOf('<head>');
+    var headEndIndex = html.indexOf('</head>');
+    var bodyEndIndex = html.indexOf('</body>');
+
+    // Definition of the head tag nesting in html tag
+    var nestingHead = html.substring(0, headStartIndex);
+    nestingHead = (nestingHead.indexOf(indent.indent) > 0) ? false : true;
+    var amount = (nestingHead) ? 0 : indent.amount;
+
+    // Get parts of HTML file
+    var beforeHead = html.substring(0, headEndIndex);
+    var headBody = html.substring(headEndIndex - amount, bodyEndIndex);
+    var afterBody = html.substring(bodyEndIndex - amount);
 
     return {
       head: this.trimRight(beforeHead) + '\n',
       main: this.trimRight(headBody) + '\n',
       footer: afterBody,
-      indent: indent.indent
+      indent: indent.indent,
+      nesting: nestingHead
     };
   }
 

@@ -92,6 +92,15 @@ module.exports = function(grunt) {
         files: {
           'tmp/multiple_assets.html': 'test/fixtures/blank_space.html'
         }
+      },
+      nesting: {
+        options: {
+          assetsDir: ['test/fixtures/assets', 'test/fixtures/more-assets']
+        },
+        files: {
+          'tmp/nesting_space.html': 'test/fixtures/blank_space_nesting.html',
+          'tmp/nesting_tab.html': 'test/fixtures/blank_tab_nesting.html'
+        }
       }
     },
 

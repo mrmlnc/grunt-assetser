@@ -98,5 +98,27 @@ exports.assetser = {
     test.equal(actual, expected, 'A task with multiple assets directories.');
 
     test.done();
+  },
+
+  /**
+   * Nesting
+   */
+  nesting_space: function(test) {
+    test.expect(1);
+
+    var actual = grunt.file.read('tmp/nesting_space.html');
+    var expected = grunt.file.read('test/expected/nesting_space.html');
+    test.equal(actual, expected, 'A task with multiple assets directories.');
+
+    test.done();
+  },
+  nesting_tab: function(test) {
+    test.expect(1);
+
+    var actual = grunt.file.read('tmp/nesting_tab.html');
+    var expected = grunt.file.read('test/expected/nesting_tab.html');
+    test.equal(actual, expected, 'A task with multiple assets directories.');
+
+    test.done();
   }
 };

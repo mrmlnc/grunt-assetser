@@ -106,5 +106,6 @@ grunt.initConfig({
 
 ## Release History
 
+ * 2015-07-27   v0.1.2   Automatic definition of the head tag nesting in html
  * 2015-07-24   v0.1.1   Fix errors when working with multiple assets directories
  * 2015-07-24   v0.1.0   Initialization
