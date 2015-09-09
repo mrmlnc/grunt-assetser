@@ -10,7 +10,7 @@
 
 module.exports = function(grunt) {
 
-  var helpers = require('./lib/helpers');
+  var Utils = require('./lib/utils');
 
   grunt.registerMultiTask('assetser', 'Insert specific .js .css files in HTML files.', function() {
     // Merge task-specific and/or target-specific options with these defaults.
@@ -20,12 +20,14 @@ module.exports = function(grunt) {
       onlyType: ''
     });
 
+    var utils = new Utils(o);
+
     // Preparation marker for files
-    o.onlyMarked = helpers.getMarker(o.onlyMarked);
+    o.onlyMarked = utils.getMarker();
 
     // Get list of files from assets directory
-    var assets = helpers.getAssetFiles(o.assetsDir, o.onlyMarked, o.onlyType);
-    assets = helpers.combineAssets(assets);
+    var assets = utils.getAssetFiles();
+    assets = utils.combineAssets(assets);
 
     this.files.forEach(function(f) {
       var src = f.src.filter(function(filepath) {
@@ -38,9 +40,9 @@ module.exports = function(grunt) {
         }
       }).map(function(filepath) {
         var htmlRaw = grunt.file.read(filepath);
-        var html = helpers.preparationHtml(htmlRaw);
-        var styles = helpers.changeIndent(assets.styles, html.indent, html.nesting);
-        var scripts = helpers.changeIndent(assets.scripts, html.indent, html.nesting);
+        var html = utils.preparationHtml(htmlRaw);
+        var styles = utils.changeCodeIndent(assets.styles, html.indent, html.nesting);
+        var scripts = utils.changeCodeIndent(assets.scripts, html.indent, html.nesting);
 
         return html.head + styles + html.main + scripts + html.footer;
       });
