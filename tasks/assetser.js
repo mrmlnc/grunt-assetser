@@ -9,7 +9,6 @@
 'use strict';
 
 module.exports = function(grunt) {
-
   var Utils = require('./lib/utils');
 
   grunt.registerMultiTask('assetser', 'Insert specific .js .css files in HTML files.', function() {
@@ -32,6 +31,7 @@ module.exports = function(grunt) {
     this.files.forEach(function(f) {
       var src = f.src.filter(function(filepath) {
         // Warn on and remove invalid source files (if nonull was set).
+        /* eslint no-else-return: 0 */
         if (!grunt.file.exists(filepath)) {
           grunt.log.warn('Source file "' + filepath + '" not found.');
           return false;
@@ -51,5 +51,4 @@ module.exports = function(grunt) {
       grunt.log.ok('The file ' + f.dest + ' has been successfully created.');
     });
   });
-
 };
