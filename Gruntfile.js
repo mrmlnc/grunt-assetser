@@ -9,10 +9,7 @@
 'use strict';
 
 module.exports = function(grunt) {
-  // Project configuration.
   grunt.initConfig({
-    /* eslint camelcase: [2, {properties: "never"}] */
-    // Configuration to be run (and then tested).
     assetser: {
       default_options: {
         options: {
@@ -89,9 +86,6 @@ module.exports = function(grunt) {
     }
   });
 
-  // Actually load this plugin's task(s).
   grunt.loadTasks('tasks');
-
-  // By default, lint and run all tests.
   grunt.registerTask('default', ['assetser']);
 };
