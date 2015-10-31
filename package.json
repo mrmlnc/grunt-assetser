@@ -15,14 +15,14 @@
     "test": "xo && rimraf tmp && grunt assetser && node test/test.js"
   },
   "dependencies": {
-    "detect-indent": "^3.0.1",
-    "indent-string": "^1.2.2"
+    "detect-indent": "^4.0.0",
+    "indent-string": "^2.1.0"
   },
   "devDependencies": {
-    "ava": "^0.1.0",
+    "ava": "^0.3.0",
     "grunt": "~0.4.5",
     "rimraf": "^2.4.3",
-    "xo": "^0.8.0"
+    "xo": "^0.10.1"
   },
   "peerDependencies": {
     "grunt": "~0.4.5"
