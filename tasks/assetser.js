@@ -30,13 +30,12 @@ module.exports = function(grunt) {
 
     this.files.forEach(function(f) {
       var src = f.src.filter(function(filepath) {
-        // Warn on and remove invalid source files (if nonull was set).
         /* eslint no-else-return: 0 */
-        if (!grunt.file.exists(filepath)) {
+        if (grunt.file.exists(filepath)) {
+          return true;
+        } else {
           grunt.log.warn('Source file "' + filepath + '" not found.');
           return false;
-        } else {
-          return true;
         }
       }).map(function(filepath) {
         var htmlRaw = grunt.file.read(filepath);
