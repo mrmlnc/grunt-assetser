@@ -7,19 +7,6 @@ function Utils(options) {
   this.options = options;
 }
 
-Utils.prototype.getFileExtension = function(filepath) {
-  return path.extname(filepath).slice(1);
-};
-
-Utils.prototype.getMarker = function() {
-  var o = this.options;
-  return (o.onlyMarked === true) ? '._inline' : o.onlyMarked;
-};
-
-Utils.prototype.getCodeIndent = function(html) {
-  return detectIndent(html);
-};
-
 Utils.prototype.changeCodeIndent = function(str, indent, nesting) {
   if (nesting) {
     str = str.replace(/\{_\}\{_\}/g, indent);
@@ -33,7 +20,6 @@ Utils.prototype.changeCodeIndent = function(str, indent, nesting) {
 
 Utils.prototype.trimRight = function(str) {
   var tail = str.length;
-
   while (/[\s\uFEFF\u00A0]/.test(str[tail - 1])) {
     tail--;
   }
@@ -41,17 +27,17 @@ Utils.prototype.trimRight = function(str) {
   return str.slice(0, tail);
 };
 
-Utils.prototype.getDirectoryFiles = function(dirpath, marker, type) {
-  var pattern = '*' + ((marker) ? marker : '') + '.';
-  pattern += (type) ? type : '+(js|css)';
+Utils.prototype.getDirectoryFiles = function(dirPath, marker, type) {
+  marker = (marker) ? marker : '';
+  type = (type) ? type : '+(js|css)';
 
   return grunt.file.expand({
     filter: 'isFile',
     matchBase: true,
     nonull: true,
-    cwd: dirpath
-  }, pattern).map(function (file) {
-    return path.join(dirpath, file);
+    cwd: dirPath
+  }, '*' + marker + '.' + type).map(function (file) {
+    return path.join(dirPath, file);
   });
 };
 
@@ -72,16 +58,13 @@ Utils.prototype.getAssetFiles = function() {
 };
 
 Utils.prototype.combineAssets = function(assets) {
-  var that = this;
   var js = '';
   var css = '';
 
-  assets.forEach(function(filepath) {
-    var assetRaw = grunt.file.read(filepath);
-    var assetType = that.getFileExtension(filepath);
-    var output = indentString(assetRaw, '{_}');
+  assets.forEach(function(filePath) {
+    var output = indentString(grunt.file.read(filePath), '{_}');
 
-    if (assetType === 'js') {
+    if (path.extname(filePath) === '.js') {
       js += indentString(output, '{_}{_}');
     } else {
       css += indentString(output, '{_}{_}');
@@ -95,12 +78,12 @@ Utils.prototype.combineAssets = function(assets) {
 };
 
 Utils.prototype.preparationHtml = function(html) {
-  var indent = this.getCodeIndent(html);
+  var indent = detectIndent(html);
 
   // Definition indentation in file
   var headStartIndex = html.indexOf('<head>');
   var headEndIndex = html.indexOf('</head>');
-  var bodyEndIndex = html.indexOf('</body>');
+  var bodyEndIndex = html.lastIndexOf('</body>');
 
   // Definition of the head tag nesting in html tag
   var nestingHead = html.substring(0, headStartIndex);
