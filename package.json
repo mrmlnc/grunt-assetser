@@ -12,7 +12,7 @@
     "node": ">= 0.10.0"
   },
   "scripts": {
-    "test": "xo --ignore=Gruntfile.js && rimraf tmp && grunt assetser && node test/test.js"
+    "test": "xo --ignore=Gruntfile.js && rimraf tmp && grunt assetser && ava test/test.js"
   },
   "dependencies": {
     "detect-indent": "^4.0.0",
