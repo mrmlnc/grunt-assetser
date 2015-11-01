@@ -1,16 +1,21 @@
-var grunt = require('grunt');
 var path = require('path');
+var fs = require('fs');
+var grunt = require('grunt');
+var Promise = require('promise');
 var detectIndent = require('detect-indent');
-var indentString = require('indent-string');
+var minify = require('./minify');
 
-function Utils(options) {
-  this.options = options;
-}
-
-Utils.prototype.changeCodeIndent = function(str, indent, nesting) {
+/**
+ * Change indent
+ *
+ * @param str {String}
+ * @param indent {String}
+ * @param nesting {Boolean}
+ * @returns {*}
+ */
+module.exports.changeCodeIndent = function(str, indent, nesting) {
   if (nesting) {
     str = str.replace(/\{_\}\{_\}/g, indent);
-    str = str.replace(/\{_\}/g, indent);
   } else {
     str = str.replace(/\{_\}/g, indent);
   }
@@ -18,7 +23,14 @@ Utils.prototype.changeCodeIndent = function(str, indent, nesting) {
   return str;
 };
 
-Utils.prototype.trimRight = function(str) {
+/**
+ * Trim right spaces and tabs
+ *
+ * @param str {String}
+ * @returns {String}
+ * @private
+ */
+var _trimRight = function(str) {
   var tail = str.length;
   while (/[\s\uFEFF\u00A0]/.test(str[tail - 1])) {
     tail--;
@@ -27,57 +39,106 @@ Utils.prototype.trimRight = function(str) {
   return str.slice(0, tail);
 };
 
-Utils.prototype.getDirectoryFiles = function(dirPath, marker, type) {
+/**
+ * Reading files in the directory
+ *
+ * @param dirPath {String|Array}
+ * @param marker {String|Boolean}
+ * @param type {String}
+ * @returns {Array}
+ * @private
+ */
+var _readAssetsDir = function(dirPath, marker, type) {
   marker = (marker) ? marker : '';
   type = (type) ? type : '+(js|css)';
 
-  return grunt.file.expand({
-    filter: 'isFile',
-    matchBase: true,
-    nonull: true,
-    cwd: dirPath
-  }, '*' + marker + '.' + type).map(function (file) {
-    return path.join(dirPath, file);
+  var listsOfFiles = [];
+  if (typeof dirPath === 'object') {
+    // If the path has several directories
+    dirPath.forEach(function(dir) {
+      listsOfFiles.push.apply(listsOfFiles, _readAssetsDir(dir, marker, type));
+    });
+  } else {
+    listsOfFiles = grunt.file.expand({
+      filter: 'isFile',
+      matchBase: true,
+      nonull: true,
+      cwd: dirPath
+    }, '*' + marker + '.' + type).map(function(file) {
+      return path.join(dirPath, file);
+    });
+  }
+
+  return listsOfFiles;
+};
+
+/**
+ * Reading and optimization of the resource file
+ *
+ * @param filePath {String}
+ * @returns {Promise}
+ * @private
+ */
+var _readAssetFile = function(filePath) {
+  return new Promise(function(resolve, reject) {
+    fs.readFile(filePath, 'utf8', function(err, data) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve({
+          ext: path.extname(filePath),
+          data: data
+        });
+      }
+    });
   });
 };
 
-Utils.prototype.getAssetFiles = function() {
-  var o = this.options;
-  var that = this;
-  var paths = [];
-  if (typeof o.assetsDir === 'object') {
-    o.assetsDir.forEach(function(filepath) {
-      var files = that.getDirectoryFiles(filepath, o.onlyMarked, o.onlyType);
-      paths.push.apply(paths, files);
-    });
-  } else {
-    return this.getDirectoryFiles(o.assetsDir, o.onlyMarked, o.onlyType);
-  }
-
-  return paths;
-};
-
-Utils.prototype.combineAssets = function(assets) {
+/**
+ * The combination of files by type
+ *
+ * @param assets {Array}
+ * @returns {{scripts: string, styles: string}}
+ */
+var _combineAssets = function(assets) {
   var js = '';
   var css = '';
 
-  assets.forEach(function(filePath) {
-    var output = indentString(grunt.file.read(filePath), '{_}');
-
-    if (path.extname(filePath) === '.js') {
-      js += indentString(output, '{_}{_}');
+  assets.forEach(function(resource) {
+    if (resource.ext === '.js') {
+      js += minify.js(resource.data);
     } else {
-      css += indentString(output, '{_}{_}');
+      css += minify.css(resource.data);
     }
   });
 
   return {
-    scripts: (js) ? '{_}{_}<script>\n' + js + '{_}{_}</script>\n' : '',
-    styles: (css) ? '{_}{_}<style>\n' + css + '{_}{_}</style>\n' : ''
+    scripts: (js) ? '{_}{_}<script>' + js + '</script>\n' : '',
+    styles: (css) ? '{_}{_}<style>' + css + '</style>\n' : ''
   };
 };
 
-Utils.prototype.preparationHtml = function(html) {
+/**
+ * Get content from assets files
+ *
+ * @param o {Object}
+ * @return {Promise}
+ */
+module.exports.getAssetsContent = function(o) {
+  var promises = _readAssetsDir(o.assetsDir, o.onlyMarked, o.onlyType).map(function(filePath) {
+    return _readAssetFile(filePath);
+  });
+
+  return Promise.all(promises).then(_combineAssets);
+};
+
+/**
+ * Preparation html file
+ *
+ * @param html
+ * @returns {{head: string, main: string, footer: string, indent: actual, nesting: string}}
+ */
+module.exports.preparationHtml = function(html) {
   var indent = detectIndent(html);
 
   // Definition indentation in file
@@ -96,12 +157,10 @@ Utils.prototype.preparationHtml = function(html) {
   var afterBody = html.substring(bodyEndIndex - amount);
 
   return {
-    head: this.trimRight(beforeHead) + '\n',
-    main: this.trimRight(headBody) + '\n',
+    head: _trimRight(beforeHead) + '\n',
+    main: _trimRight(headBody) + '\n',
     footer: afterBody,
     indent: indent.indent,
     nesting: nestingHead
   };
 };
-
-module.exports = Utils;

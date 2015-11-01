@@ -1,7 +1,7 @@
 {
   "name": "grunt-assetser",
-  "description": "Inject assets files (js, css) into HTML files.",
-  "version": "0.1.5",
+  "description": "Inserting the contents of external CSS and JavaScript files directly into the HTML document",
+  "version": "1.0.0",
   "author": {
     "name": "Denis Malinochkin",
     "url": "http://canonium.com"
@@ -16,7 +16,8 @@
   },
   "dependencies": {
     "detect-indent": "^4.0.0",
-    "indent-string": "^2.1.0"
+    "jsmin2": "^1.1.7",
+    "promise": "^7.0.4"
   },
   "devDependencies": {
     "ava": "^0.3.0",
@@ -34,7 +35,10 @@
     "assets",
     "stylesheets",
     "styles",
-    "scripts"
+    "scripts",
+    "css",
+    "js",
+    "html"
   ],
   "files": [
     "tasks"
