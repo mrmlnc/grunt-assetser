@@ -2,6 +2,11 @@
 
 > Inserting the contents of external CSS and JavaScript files directly into the HTML document.
 
+[![Travis](https://img.shields.io/travis/mrmlnc/grunt-assetser.svg?style=flat-square)](https://travis-ci.org/mrmlnc/grunt-assetser)
+[![NPM version](https://img.shields.io/npm/v/grunt-assetser.svg?style=flat-square)](https://www.npmjs.com/package/grunt-assetser)
+[![devDependency Status](https://img.shields.io/david/mrmlnc/grunt-assetser.svg?style=flat-square)](https://david-dm.org/mrmlnc/grunt-assetser#info=dependencies)
+[![devDependency Status](https://img.shields.io/david/dev/mrmlnc/grunt-assetser.svg?style=flat-square)](https://david-dm.org/mrmlnc/grunt-assetser#info=devDependencies)
+
 ## Getting Started
 This plugin requires Grunt `~0.4.5`
 
@@ -141,4 +146,4 @@ grunt.initConfig({
  - 2015-09-09   v0.1.3   Refactoring and tests by Ava
  - 2015-07-27   v0.1.2   Automatic definition of the head tag nesting in html
  - 2015-07-24   v0.1.1   Fix errors when working with multiple assets directories
- - 2015-07-24   v0.1.0   Initialization
+ - 2015-07-24   v0.1.0   Initialization
