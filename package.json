@@ -17,13 +17,13 @@
   "dependencies": {
     "detect-indent": "^4.0.0",
     "jsmin2": "^1.1.7",
-    "promise": "^7.0.4"
+    "promise": "^7.1.1"
   },
   "devDependencies": {
-    "ava": "^0.3.0",
+    "ava": "^0.8.0",
     "grunt": "~0.4.5",
-    "rimraf": "^2.4.3",
-    "xo": "^0.10.1"
+    "rimraf": "^2.5.0",
+    "xo": "^0.12.1"
   },
   "peerDependencies": {
     "grunt": "~0.4.5"
