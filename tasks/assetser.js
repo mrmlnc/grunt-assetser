@@ -1,22 +1,20 @@
 /*
  * grunt-assetser
  * https://github.com/mrmlnc/grunt-assetser
- *
- * Copyright (c) 2015 Denis Malinochkin
- * Licensed under the MIT license.
  */
 
 'use strict';
 
 module.exports = function(grunt) {
-  var utils = require('./lib/utils');
+  var utils = require('../lib/utils');
 
   grunt.registerMultiTask('assetser', 'Inserting the contents of external CSS and JavaScript files directly into the HTML document', function() {
     // Merge task-specific and/or target-specific options with these defaults.
     var o = this.options({
       assetsDir: '',
       onlyMarked: false,
-      onlyType: ''
+      onlyType: '',
+      verbose: true
     });
 
     // Preparation marker for files
@@ -36,15 +34,16 @@ module.exports = function(grunt) {
             grunt.log.warn('Source file "' + filePath + '" not found.');
             return false;
           }
-        }).map(function(filePath) {
-          var html = utils.preparationHtml(grunt.file.read(filePath));
-          var styles = utils.changeCodeIndent(assets.styles, html.indent, html.nesting);
-          var scripts = utils.changeCodeIndent(assets.scripts, html.indent, html.nesting);
-          return html.head + styles + html.main + scripts + html.footer;
+        }).map(function (filePath) {
+          var htmlRaw = grunt.file.read(filePath);
+          return utils.preparationHtml(htmlRaw, assets);
         });
 
         grunt.file.write(f.dest, src);
-        grunt.log.ok('The file ' + f.dest + ' has been successfully created.');
+
+        if (o.verbose) {
+          grunt.log.ok('The file ' + f.dest + ' has been successfully created.');
+        }
       });
 
       done();

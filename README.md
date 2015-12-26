@@ -46,6 +46,17 @@ Type: `String` Default: empty string
 
 Add only files the type specified by in this parameter. Supported: `js`, `css`.
 
+#### options.verbose
+Type: `Boolean` Default: `true`
+
+Display information about the processed files.
+
+```
+Running "assetser:default_options" (assetser) task
+>> The file tmp/default.html has been successfully created.
+>> The file tmp/default_tab.html has been successfully created.
+```
+
 ### Example of work
 
 #### Before
@@ -140,6 +151,7 @@ grunt.initConfig({
 
 ## Release History
 
+ - 2015-12-27   v1.1.0   Verbose option and overwrite the content instead of adding at the end
  - 2015-11-01   v1.0.0   Optimization of combination of resource files
  - 2015-10-31   v0.1.5   Cleaning code
  - 2015-09-13   v0.1.4   Added XO

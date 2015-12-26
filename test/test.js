@@ -70,3 +70,10 @@ test.cb('nesting tab', function(t) {
   t.is(actual, expected);
   t.end();
 });
+
+test.cb('second run', function(t) {
+  var actual = fs.readFileSync('../tmp/second_run.html', 'utf8');
+  var expected = fs.readFileSync('expected/second_run.html', 'utf8');
+  t.is(actual, expected);
+  t.end();
+});

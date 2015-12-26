@@ -1,9 +1,6 @@
 /*
  * grunt-assetser
  * https://github.com/mrmlnc/grunt-assetser
- *
- * Copyright (c) 2015 Denis Malinochkin
- * Licensed under the MIT license.
  */
 
 'use strict';
@@ -81,6 +78,14 @@ module.exports = function(grunt) {
         files: {
           'tmp/nesting_space.html': 'test/fixtures/blank_space_nesting.html',
           'tmp/nesting_tab.html': 'test/fixtures/blank_tab_nesting.html'
+        }
+      },
+      secondRun: {
+        options: {
+          assetsDir: ['test/fixtures/assets1', 'test/fixtures/more-assets']
+        },
+        files: {
+          'tmp/second_run.html': 'tmp/multiple_assets.html'
         }
       }
     }
