@@ -8,7 +8,6 @@
 [![devDependency Status](https://img.shields.io/david/dev/mrmlnc/grunt-assetser.svg?style=flat-square)](https://david-dm.org/mrmlnc/grunt-assetser#info=devDependencies)
 
 ## Getting Started
-This plugin requires Grunt `~0.4.5`
 
 If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
 
@@ -151,6 +150,7 @@ grunt.initConfig({
 
 ## Release History
 
+ - 2016-02-22   v1.1.1   Compatibility with Grunt version 1.0.0.
  - 2015-12-27   v1.1.0   Verbose option and overwrite the content instead of adding at the end
  - 2015-11-01   v1.0.0   Optimization of combination of resource files
  - 2015-10-31   v0.1.5   Cleaning code
