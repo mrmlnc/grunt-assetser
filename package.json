@@ -15,7 +15,7 @@
     "test": "xo --ignore=Gruntfile.js && rimraf tmp && grunt assetser && ava test/test.js"
   },
   "dependencies": {
-    "detect-indent": "^4.0.0",
+    "detect-indent": "^5.0.0",
     "jsmin2": "^1.1.7",
     "promise": "^7.1.1"
   },
