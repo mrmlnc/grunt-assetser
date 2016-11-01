@@ -9,7 +9,7 @@
   "repository": "mrmlnc/grunt-assetser",
   "licenses": "MIT",
   "engines": {
-    "node": ">= 0.10.0"
+    "node": ">= 4"
   },
   "scripts": {
     "test": "xo --ignore=Gruntfile.js && rimraf tmp && grunt assetser && ava test/test.js"
