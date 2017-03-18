@@ -23,7 +23,7 @@
     "ava": "^0.8.0",
     "grunt": "~0.4.5",
     "rimraf": "^2.5.0",
-    "xo": "^0.12.1"
+    "xo": "^0.18.0"
   },
   "keywords": [
     "gruntplugin",
