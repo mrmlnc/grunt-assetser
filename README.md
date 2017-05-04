@@ -1,5 +1,7 @@
 # grunt-assetser
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/mrmlnc/grunt-assetser.svg)](https://greenkeeper.io/)
+
 > Inserting the contents of external CSS and JavaScript files directly into the HTML document.
 
 [![Travis](https://img.shields.io/travis/mrmlnc/grunt-assetser.svg?style=flat-square)](https://travis-ci.org/mrmlnc/grunt-assetser)
